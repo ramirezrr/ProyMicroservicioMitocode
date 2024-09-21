@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
+        <version>3.3.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mitocode.licencias</groupId>
@@ -34,7 +34,7 @@
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc11</artifactId>
-            <scope>runtime</scope>
+<!--            <version>11.2.0.4</version>-->
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
