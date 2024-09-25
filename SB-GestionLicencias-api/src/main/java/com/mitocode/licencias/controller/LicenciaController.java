@@ -1,10 +1,14 @@
 package com.mitocode.licencias.controller;
 
-import com.mitocode.licencias.exception.FunctionalGenericResponse;
+import com.mitocode.licencias.exception.ErrorGenericResponse;
+import com.mitocode.licencias.exception.GenericoResponse;
 import com.mitocode.licencias.model.BajaResponse;
 import com.mitocode.licencias.model.Licencia;
 import com.mitocode.licencias.service.LicenciaServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,23 +43,16 @@ public class LicenciaController {
     private final LicenciaServiceImpl licenciaService;
 
 
-    @Operation(summary = "Validar estado de licencia")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Estado de la licencia validado exitosamente",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FunctionalGenericResponse.class))}),
-            @ApiResponse(responseCode = "400", description = "No se pudo obtener los datos de la licencia",
-                    content = @Content)})
-    @PostMapping("/validateLicenseStatus/{numeroLicencia}")
-    public ResponseEntity<FunctionalGenericResponse> validateLicenseStatus(@PathVariable String numeroLicencia) {
-        FunctionalGenericResponse nuevaLicencia = licenciaService.validarEstadoLicencia(numeroLicencia);
+    @Operation(summary = "Validar vigencia de la licencia en base a la fecha de vencimiento")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Estado de la licencia validado exitosamente", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GenericoResponse.class))}), @ApiResponse(responseCode = "400", description = "No se pudo obtener los datos de la licencia", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
+    @PostMapping("/validateVigenciaStatus/{numeroLicencia}")
+    public ResponseEntity<GenericoResponse> validateVigenciaStatus(@PathVariable String numeroLicencia) {
+        GenericoResponse nuevaLicencia = licenciaService.validarEstadoLicencia(numeroLicencia);
         return ResponseEntity.ok(nuevaLicencia);
     }
 
     @Operation(summary = "Emitir una nueva licencia")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Licencia emitida exitosamente",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}),
-            @ApiResponse(responseCode = "400", description = "Error al emitir licencia", content = @Content)})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Licencia emitida exitosamente", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}), @ApiResponse(responseCode = "400", description = "Error al emitir licencia", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @PostMapping("/issueLicense")
     public ResponseEntity<Licencia> issueLicense(@RequestBody @Valid Licencia licencia) {
         Licencia nuevaLicencia = licenciaService.emitirLicencia(licencia);
@@ -64,29 +61,24 @@ public class LicenciaController {
 
 
     @Operation(summary = "Actualizar una licencia existente")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Licencia actualizada exitosamente",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}),
-            @ApiResponse(responseCode = "400", description = "Licencia no encontrada", content = @Content)})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Licencia actualizada exitosamente", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}), @ApiResponse(responseCode = "400", description = "Licencia no encontrada", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @PutMapping("/updateLicense/{id}")
-    public ResponseEntity<Licencia> updateLicense(@PathVariable Long id, @RequestBody  @Valid Licencia licencia) {
+    public ResponseEntity<Licencia> updateLicense(@PathVariable Long id, @RequestBody @Valid Licencia licencia) {
         Licencia licenciaActualizada = licenciaService.actualizarLicencia(id, licencia);
         return ResponseEntity.ok(licenciaActualizada);
     }
 
 
     @Operation(summary = "Listar todas las licencias")
-    @ApiResponse(responseCode = "200", description = "Listado de licencias obtenido exitosamente",
-            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Listado de licencias obtenido exitosamente", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Licencia.class)))}), @ApiResponse(responseCode = "400", description = "Error al obtener las licencias", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @GetMapping("/listLicenses")
     public List<Licencia> listLicenses() {
         return licenciaService.listarLicencias();
     }
 
 
-    @Operation(summary = "Listar licencias eliminadas")
-    @ApiResponse(responseCode = "200", description = "Listado de licencias eliminadas obtenido exitosamente (estado = INACTIVO & deleted = true)",
-            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))})
+    @Operation(summary = "Listado de licencias eliminadas obtenido exitosamente (estado = INACTIVO & deleted = true)s")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Listado de licencias eliminadas obtenido exitosamente", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Licencia.class)))}), @ApiResponse(responseCode = "400", description = "Error al obtener las licencias eliminadas", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @GetMapping("/listDeletedLicenses")
     public List<Licencia> listDeletedLicenses() {
         return licenciaService.listarLicenciasEliminadas();
@@ -94,10 +86,7 @@ public class LicenciaController {
 
 
     @Operation(summary = "Listar licencia por ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Licencia obtenida exitosamente",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}),
-            @ApiResponse(responseCode = "400", description = "Licencia no encontrada", content = @Content)})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Licencia obtenida exitosamente", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}), @ApiResponse(responseCode = "400", description = "Licencia no encontrada", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @GetMapping("/listLicensesById/{id}")
     public Licencia listLicensesById(@PathVariable Long id) {
         return licenciaService.listarLicenciasPorId(id);
@@ -105,33 +94,22 @@ public class LicenciaController {
 
 
     @Operation(summary = "Listar licencias por estado")
-    @ApiResponse(responseCode = "200", description = "Listado de licencias obtenido exitosamente",
-            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Listado de licencias obtenido exitosamente", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}), @ApiResponse(responseCode = "400", description = "Licencia no encontrada", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @GetMapping("/listLicensesByStatus/{estado}")
-    public List<Licencia> listLicensesByStatus(@PathVariable String estado) {
+    public List<Licencia> listLicensesByStatus(@Parameter(description = "Estado de la licencia", example = "ACTIVO", in = ParameterIn.PATH, schema = @Schema(type = "string", allowableValues = {"ACTIVO", "INACTIVO"})) @PathVariable String estado) {
         return licenciaService.listarLicenciasPorEstado(estado);
     }
 
     @Operation(summary = "Dar de baja una licencia")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Licencia dada de baja exitosamente",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BajaResponse.class))}),
-            @ApiResponse(responseCode = "400", description = "Error al dar de baja la licencia", content = @Content)
-    })
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Licencia dada de baja exitosamente", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BajaResponse.class))}), @ApiResponse(responseCode = "400", description = "Error al dar de baja la licencia", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @PostMapping("/updateStatusToDeactivateLicense")
-    public ResponseEntity<BajaResponse> updateStatusToDeactivateLicense(
-            @RequestParam(required = false) String numeroLicencia,
-            @RequestParam(required = false) Long id
-    ) {
+    public ResponseEntity<BajaResponse> updateStatusToDeactivateLicense(@RequestParam(required = false) String numeroLicencia, @RequestParam(required = false) Long id) {
         BajaResponse licencia = licenciaService.actualizarEstadoDarDeBajaLicencia(numeroLicencia, id);
         return ResponseEntity.ok(licencia);
     }
 
     @Operation(summary = "Actualizar parcialmente una licencia")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Licencia actualizada parcialmente exitosamente",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}),
-            @ApiResponse(responseCode = "400", description = "Error al actualizar parcialmente la licencia", content = @Content)})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Licencia actualizada parcialmente exitosamente", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}), @ApiResponse(responseCode = "400", description = "Error al actualizar parcialmente la licencia", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado actualizar parcialmente la licencia", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @PatchMapping(path = "/partiallyUpdateLicense/{id}", consumes = "application/json-patch+json")
     public ResponseEntity<Licencia> partiallyUpdateLicense(@PathVariable Long id, @RequestBody @Valid Licencia incompleteLicencia) {
         return ResponseEntity.status(HttpStatus.OK).body(licenciaService.actualizarValorParcialesLicencia(id, incompleteLicencia));

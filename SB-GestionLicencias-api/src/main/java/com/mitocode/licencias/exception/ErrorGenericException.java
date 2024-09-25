@@ -1,10 +1,10 @@
 package com.mitocode.licencias.exception;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Setter
+@Getter
 public class ErrorGenericException extends RuntimeException {
 
     private final String codigoError;

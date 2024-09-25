@@ -1,6 +1,7 @@
 package com.mitocode.licencias.service;
 
 import com.mitocode.licencias.exception.FunctionalGenericResponse;
+import com.mitocode.licencias.exception.GenericoResponse;
 import com.mitocode.licencias.model.BajaResponse;
 import com.mitocode.licencias.model.Licencia;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 public interface ILicenciaService {
 
-    FunctionalGenericResponse validarEstadoLicencia(String licencia);
+    GenericoResponse validarEstadoLicencia(String licencia);
 
     Licencia emitirLicencia(Licencia licencia);
 

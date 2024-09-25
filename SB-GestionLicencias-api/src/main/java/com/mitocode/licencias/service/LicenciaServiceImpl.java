@@ -2,6 +2,7 @@ package com.mitocode.licencias.service;
 
 import com.mitocode.licencias.exception.ErrorGenericException;
 import com.mitocode.licencias.exception.FunctionalGenericResponse;
+import com.mitocode.licencias.exception.GenericoResponse;
 import com.mitocode.licencias.model.BajaResponse;
 import com.mitocode.licencias.model.Licencia;
 import com.mitocode.licencias.model.TipoLicencia;
@@ -30,9 +31,9 @@ public class LicenciaServiceImpl implements ILicenciaService {
     private final ITipoLicenciaService tipoLicenciaService;
 
     @Override
-    public FunctionalGenericResponse validarEstadoLicencia(String numeroLicencia) {
+    public GenericoResponse validarEstadoLicencia(String numeroLicencia) {
 
-        FunctionalGenericResponse response = new FunctionalGenericResponse();
+        GenericoResponse response = new GenericoResponse();
 
         response.setCodigoRespuesta(HttpStatus.OK.toString());
         response.setMensajeRespuesta(validarFecha(numeroLicencia, null).getMensajeRespuesta());
@@ -126,7 +127,7 @@ public class LicenciaServiceImpl implements ILicenciaService {
     }
 
     public List<Licencia> listarLicencias() {
-        return licenciaRepository.findAllByDeleted(false).orElseThrow(() -> new ErrorGenericException(HttpStatus.BAD_REQUEST.toString(), "Licencias no encontradas."));
+        return licenciaRepository.findAllByDeleted(false).orElseThrow(() -> new ErrorGenericException(HttpStatus.BAD_REQUEST.toString(), "Error al obtener licencias."));
     }
 
     public Licencia listarLicenciasPorId(Long id) {
@@ -138,7 +139,7 @@ public class LicenciaServiceImpl implements ILicenciaService {
     }
 
     public List<Licencia> listarLicenciasEliminadas() {
-        return licenciaRepository.findAllByDeletedAndEstado(true, "INACTIVO").orElseThrow(() -> new ErrorGenericException(HttpStatus.BAD_REQUEST.toString(), "Licencias no encontradas."));
+        return licenciaRepository.findAllByDeletedAndEstado(true, "INACTIVO").orElseThrow(() -> new ErrorGenericException(HttpStatus.BAD_REQUEST.toString(), "Error al obtener licencias"));
     }
 
 
