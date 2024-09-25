@@ -111,7 +111,7 @@ public class LicenciaController {
     @Operation(summary = "Actualizar parcialmente una licencia")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Licencia actualizada parcialmente exitosamente", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}), @ApiResponse(responseCode = "400", description = "Error al actualizar parcialmente la licencia", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado actualizar parcialmente la licencia", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @PatchMapping(path = "/partiallyUpdateLicense/{id}", consumes = "application/json-patch+json")
-    public ResponseEntity<Licencia> partiallyUpdateLicense(@PathVariable Long id, @RequestBody @Valid Licencia incompleteLicencia) {
+    public ResponseEntity<Licencia> partiallyUpdateLicense(@PathVariable Long id, @RequestBody Licencia incompleteLicencia) {
         return ResponseEntity.status(HttpStatus.OK).body(licenciaService.actualizarValorParcialesLicencia(id, incompleteLicencia));
     }
 
