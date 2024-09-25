@@ -1,0 +1,41 @@
+server:
+  servlet:
+    context-path: /gestor-licencias-api
+
+spring:
+  application:
+    name: SB-GestionLicencias-api
+  # configuración de Base de datos
+  datasource:
+    password: mitocode
+    url: jdbc:oracle:thin:@//localhost:1521/xe
+    username: mitocode
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+
+# Swagger - OpenApi
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
+
+# Eureka Client Configuration
+eureka:
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    leaseRenewalIntervalInSeconds: 2
+    leaseExpirationDurationInSeconds: 2
