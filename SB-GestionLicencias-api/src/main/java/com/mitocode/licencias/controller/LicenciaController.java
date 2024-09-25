@@ -69,7 +69,7 @@ public class LicenciaController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}),
             @ApiResponse(responseCode = "400", description = "Licencia no encontrada", content = @Content)})
     @PutMapping("/updateLicense/{id}")
-    public ResponseEntity<Licencia> updateLicense(@PathVariable Long id, @RequestBody Licencia licencia) {
+    public ResponseEntity<Licencia> updateLicense(@PathVariable Long id, @RequestBody  @Valid Licencia licencia) {
         Licencia licenciaActualizada = licenciaService.actualizarLicencia(id, licencia);
         return ResponseEntity.ok(licenciaActualizada);
     }
@@ -133,7 +133,7 @@ public class LicenciaController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Licencia.class))}),
             @ApiResponse(responseCode = "400", description = "Error al actualizar parcialmente la licencia", content = @Content)})
     @PatchMapping(path = "/partiallyUpdateLicense/{id}", consumes = "application/json-patch+json")
-    public ResponseEntity<Licencia> partiallyUpdateLicense(@PathVariable Long id, @RequestBody Licencia incompleteLicencia) {
+    public ResponseEntity<Licencia> partiallyUpdateLicense(@PathVariable Long id, @RequestBody @Valid Licencia incompleteLicencia) {
         return ResponseEntity.status(HttpStatus.OK).body(licenciaService.actualizarValorParcialesLicencia(id, incompleteLicencia));
     }
 

@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -50,12 +51,14 @@ public class Licencia {
     @ManyToOne
     @JoinColumn(name = "titular_id", nullable = false)
     @Schema(description = "Titular de la licencia", required = true)
+    @Valid
     private Titular titular;
 
     @NotNull(message = "El tipo de licencia es obligatorio.")
     @ManyToOne
     @JoinColumn(name = "tipoLicencia_id", nullable = false)
     @Schema(description = "Tipo de licencia", required = true)
+    @Valid
     private TipoLicencia tipoLicencia;
 
     @Schema(description = "Indica si la licencia ha sido eliminada lógicamente", example = "false", defaultValue = "false")
