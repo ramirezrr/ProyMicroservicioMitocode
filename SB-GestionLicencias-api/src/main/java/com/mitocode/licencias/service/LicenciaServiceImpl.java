@@ -138,7 +138,7 @@ public class LicenciaServiceImpl implements ILicenciaService {
     }
 
     public List<Licencia> listarLicenciasEliminadas() {
-        return licenciaRepository.findAllByDeleted(true).orElseThrow(() -> new ErrorGenericException(HttpStatus.BAD_REQUEST.toString(), "Licencias no encontradas."));
+        return licenciaRepository.findAllByDeletedAndEstado(true, "INACTIVO").orElseThrow(() -> new ErrorGenericException(HttpStatus.BAD_REQUEST.toString(), "Licencias no encontradas."));
     }
 
 

@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface LicenciaRepository extends JpaRepository<Licencia, Long> {
 
     Optional<List<Licencia>> findAllByDeleted(boolean deleted);
+    Optional<List<Licencia>> findAllByDeletedAndEstado(boolean deleted, String estado);
 
     Optional<Licencia> findByDeletedAndId(boolean deleted, Long id);
 
