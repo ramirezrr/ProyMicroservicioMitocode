@@ -1,4 +1,11 @@
+# Gestión-Licencia API
+
 
 ### OPEN API:
-- http://localhost:8080/gestor-licencias-api/swagger-ui/index.html#/
-- http://localhost:8080/gestor-licencias-api/api-docs
+```shell 
+# Url que cargará las propiedades de licencia
+curl http://localhost:9010/gestor-licencias-api/api-docs
+```
+```http request
+http://localhost:9010/gestor-licencias-api/swagger-ui/index.html#/Licencias/listLicenses
+```
