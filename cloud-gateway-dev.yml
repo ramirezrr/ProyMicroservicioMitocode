@@ -1,0 +1,15 @@
+server:
+  port: 9020
+
+
+# Spring Cloud Gateway Router
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: licencia-service-route
+          uri: lb://licencia-service
+          predicates:
+            - Path=/api/licencia-service/**
+          filters:
+            - StripPrefix=2
