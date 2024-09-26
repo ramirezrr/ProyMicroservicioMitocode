@@ -3,14 +3,15 @@ server:
   servlet:
     context-path: /gestor-licencias-api
 
+
 spring:
   application:
     name: SB-GestionLicencias-api
-  # configuración de Base de datos
+  # configuración de Base de datos ORACLE
   datasource:
-    password: mitocode
     url: jdbc:oracle:thin:@//localhost:1521/xe
     username: mitocode
+    password: '{cipher}ab6cee2558815e45fad14ce6918927bb1c447ca571558a06dfe0a6aa82783777'
   jpa:
     hibernate:
       ddl-auto: update
@@ -18,7 +19,6 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
-
 
 # Swagger - OpenApi
 springdoc:
