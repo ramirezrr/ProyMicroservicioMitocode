@@ -1,0 +1,10 @@
+ ,----.     ,---. ,--------.,------.,--.   ,--.  ,---.,--.   ,--.
+'  .-./    /  O  \'--.  .--'|  .---'|  |   |  | /  O  \\  `.'  /
+|  | .---.|  .-.  |  |  |   |  `--, |  |.'.|  ||  .-.  |'.    /
+'  '--'  ||  | |  |  |  |   |  `---.|   ,'.   ||  | |  |  |  |
+ `------' `--' `--'  `--'   `------''--'   '--'`--' `--'  `--'
+
+${application.title} ${application.version}
+Description: ${application.description}
+Powered by Spring Boot ${spring-boot.version}
+Author ${application.author}
