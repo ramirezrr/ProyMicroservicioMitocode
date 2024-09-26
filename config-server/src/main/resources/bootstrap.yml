@@ -1,0 +1,36 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: config-server
+
+## Config Server Configuration
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ramirezrr/ProyMicroservicioMitocode.git
+          #username: '{cipher}477aa1c80755c09a6268602844dbee05c8f95f0025bd71502829b439fdaa450d'
+          #password: '{cipher}1f39fced936f5fe29d78f077666f14e85330180d3525f9ed70e96f9e83f48d4c109ed9d08c8a79d2f97a439711dd50bd98e125de3096b398ac6bb6f303fae4ba'
+          defaultLabel: ${CONFIG.SERVER.BRANCH:properties-files}
+          cloneOnStart: true
+          refreshRate: 5 # segundos
+        encrypt:
+          enabled: true
+
+# Encrypt key
+encrypt:
+  key: mitocode-secret
+
+
+## Eureka Client Configuration
+eureka:
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    leaseRenewalIntervalInSeconds: 2
+    leaseExpirationDurationInSeconds: 2
