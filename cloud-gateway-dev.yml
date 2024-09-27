@@ -1,7 +1,6 @@
 server:
   port: 9020
 
-
 # Spring Cloud Gateway Router
 spring:
   cloud:
