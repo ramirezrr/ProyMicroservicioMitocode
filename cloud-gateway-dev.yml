@@ -13,3 +13,4 @@ spring:
             - Path=/api/licencia-service/**
           filters:
             - StripPrefix=2
+            - LicenciaServiceFilter=MitocodeKey,MitocodeValue
