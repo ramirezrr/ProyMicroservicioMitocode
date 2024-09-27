@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -31,7 +32,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -72,7 +76,7 @@ public class LicenciaController {
     @Operation(summary = "Listar todas las licencias")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Listado de licencias obtenido exitosamente", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Licencia.class)))}), @ApiResponse(responseCode = "400", description = "Error al obtener las licencias", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @GetMapping("/listLicenses")
-    public List<Licencia> listLicenses() {
+    public List<Licencia> listLicenses(@AuthenticationPrincipal OAuth2User user) {
         return licenciaService.listarLicencias();
     }
 
