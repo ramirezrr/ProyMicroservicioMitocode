@@ -14,3 +14,4 @@ spring:
             - StripPrefix=2
             - LicenciaServiceFilter=X-Tracking-ID,tracking-value-xyz
 
+
