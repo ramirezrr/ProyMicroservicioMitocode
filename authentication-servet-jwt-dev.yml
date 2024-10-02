@@ -5,21 +5,8 @@ mitocode:
   security:
     key: cb5a5e83a031e8bdbee887001e4dcd202d5bff8402921506c489ed633be3460e
 
-## Mongo Configuration
-#spring:
-#  data:
-#    mongodb:
-#      uri: mongodb://mitocode:pasw@localhost:27017/bd-mitocode-ms?authSource=admin
+# Mongo Configuration
 spring:
-  # configuración de Base de datos ORACLE
-  datasource:
-    url: jdbc:oracle:thin:@//localhost:1521/xe
-    username: mitocode
-    password: mitocode
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-    show-sql: true
+  data:
+    mongodb:
+      uri: mongodb://mitocode:pasw@localhost:27017/bd-mitocode-ms?authSource=admin
