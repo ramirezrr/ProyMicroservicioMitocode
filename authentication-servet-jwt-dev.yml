@@ -15,7 +15,7 @@ spring:
   datasource:
     url: jdbc:oracle:thin:@//localhost:1521/xe
     username: mitocode
-    password: '{cipher}ab6cee2558815e45fad14ce6918927bb1c447ca571558a06dfe0a6aa82783777'
+    password: mitocode
   jpa:
     hibernate:
       ddl-auto: update
