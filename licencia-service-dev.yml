@@ -17,14 +17,6 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
-  # Spring securiti - Autenticación con Github
-  security:
-    oauth2:
-      client:
-        registration:
-          github:
-            client-id: Ov23liA2Y7nETyF4E9po
-            client-secret: 3387ebffd76baba8e093831ba1089fe6e41bb569
 
 # Swagger - OpenApi
 springdoc:
