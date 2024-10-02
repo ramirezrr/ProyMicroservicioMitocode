@@ -1,0 +1,12 @@
+server:
+  port: 9099
+
+mitocode:
+  security:
+    key: cb5a5e83a031e8bdbee887001e4dcd202d5bff8402921506c489ed633be3460e
+
+# Mongo Configuration
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mitocode:pasw@localhost:27017/bd-webflux?authSource=admin
