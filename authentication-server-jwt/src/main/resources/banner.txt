@@ -1,0 +1,9 @@
+     ,--.,--.   ,--.,--------.
+     |  ||  |   |  |'--.  .--'
+,--. |  ||  |.'.|  |   |  |
+|  '-'  /|   ,'.   |   |  |
+ `-----' '--'   '--'   `--'
+
+${application.title} ${application.version}
+Developed by ${application.author}
+
