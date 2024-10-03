@@ -1,4 +1,4 @@
-package com.mitocode.microservices.cloud_gateway.config.security;
+package com.mitocode.microservices.cloud_gateway.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,9 +19,10 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
         return http.authorizeExchange(auth ->
-                        auth.pathMatchers(HttpMethod.GET, "/api/product-service/**").permitAll()
-                                .pathMatchers(HttpMethod.POST, "api/product-service/**")
-                                .hasAnyRole("ADMIN", "SUPERVISOR")
+                        auth.pathMatchers(HttpMethod.GET, "/api/licencia-service/gestor-licencias-api/licencias/**")
+                                .hasAnyRole("VIEWER")
+                        .pathMatchers(HttpMethod.POST, "/api/licencia-service/gestor-licencias-api/licencias/**")
+                                .hasAnyRole("ADMIN", "EDITOR")
                                 .anyExchange().authenticated())
                 .addFilterAt(authenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)

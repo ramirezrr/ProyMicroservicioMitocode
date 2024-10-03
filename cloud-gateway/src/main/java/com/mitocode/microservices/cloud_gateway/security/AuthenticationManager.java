@@ -1,4 +1,4 @@
-package com.mitocode.microservices.cloud_gateway.config.security;
+package com.mitocode.microservices.cloud_gateway.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

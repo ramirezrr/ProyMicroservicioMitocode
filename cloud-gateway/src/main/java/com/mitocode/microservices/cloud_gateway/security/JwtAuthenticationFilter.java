@@ -1,4 +1,4 @@
-package com.mitocode.microservices.cloud_gateway.config.security;
+package com.mitocode.microservices.cloud_gateway.security;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpHeaders;
