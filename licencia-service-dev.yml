@@ -1,7 +1,7 @@
 server:
   port: 9010
-  servlet:
-    context-path: /gestor-licencias-api
+#  servlet:
+#    context-path: /gestor-licencias-api
 
 
 spring:
@@ -28,5 +28,11 @@ springdoc:
     path: /swagger-ui.html
 
 
-
+# Enable Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        base-path: /actuator
   
