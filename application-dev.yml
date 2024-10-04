@@ -9,7 +9,7 @@ eureka:
     leaseRenewalIntervalInSeconds: 2
     leaseExpirationDurationInSeconds: 2
 
-# Enable Actuator
+# Enable Actuator config prometheus grafana loki
 management:
   endpoints:
     web:
