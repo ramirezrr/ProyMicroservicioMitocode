@@ -76,3 +76,78 @@ X-Tracking-ID: tracking-value-xyz
   }
 ]
 ```
+
+---
+# OBSERVABILITY AND MONITORING
+```YML
+services:
+
+  prometheus:
+    image: prom/prometheus
+    container_name: mitocode-prometheus
+    ports:
+      - 9090:9090
+    volumes: 
+      - ./prometheus/config/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - mitocode2
+
+  grafana:
+    image: grafana/grafana-oss
+    container_name: mitocode-grafana
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SERVER_DOMAIN=localhost
+    networks:
+      - mitocode2
+
+  loki:
+    image: grafana/loki
+    container_name: mitocode-loki
+    ports:
+      - 3100:3100
+    networks:
+      - mitocode2
+
+  zipkin:
+    image: ghcr.io/openzipkin/zipkin-slim
+    container_name: mitocode-zipkin
+    environment:
+      - STORAGE_TYPE=mem
+    ports:
+      - 9411:9411
+    networks:
+      - mitocode2
+networks:
+  mitocode2:
+    name: mitocode-network2
+```
+## URLS: 
+```http request
+http://localhost:9010/actuator/prometheus
+http://localhost:9010/actuator
+#prometheus
+http://localhost:9090/targets?search=
+#Grafana
+http://localhost:3000/
+```
+
+![docker-conf.png](docker-conf.png)
+
+## Archivo para agregar Dashboard optimizado
+[Spring Boot Observability.json](Spring%20Boot%20Observability.json)
+
+## Conf. Actuator
+```YML
+# Enable Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        base-path: /actuator
+```

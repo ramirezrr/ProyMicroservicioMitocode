@@ -85,6 +85,16 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
         <!--Fin Dependencia cliente de Config server-->
+        <!--Inicio Monitoreo y observabilidad-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <!--Fin Monitoreo y observabilidad-->
 
 
     </dependencies>
