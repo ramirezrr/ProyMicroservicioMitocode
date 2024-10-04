@@ -8,3 +8,11 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 2
     leaseExpirationDurationInSeconds: 2
+
+# Enable Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        base-path: /actuator
