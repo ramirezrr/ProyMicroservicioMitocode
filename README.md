@@ -76,6 +76,40 @@ X-Tracking-ID: tracking-value-xyz
   }
 ]
 ```
+---
+# CONF BASE DE DATOS
+```yaml
+services:
+
+  mongo-service:
+    image: mongo
+    container_name: mitocode-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mitocode
+      MONGO_INITDB_ROOT_PASSWORD: mitocode
+    ports:
+      - 27017:27017
+    networks:
+      - mitocode
+
+  mongo-express:
+    image: mongo-express
+    container_name: mitocode-mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mitocode
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mitocode
+      ME_CONFIG_MONGODB_URL: mongodb://mitocode:mitocode@mongo-service:27017
+    networks:
+      - mitocode
+
+
+networks:
+  mitocode:
+    name: mitocode-network
+
+```
 
 ---
 # OBSERVABILITY AND MONITORING
