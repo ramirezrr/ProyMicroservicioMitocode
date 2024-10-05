@@ -185,3 +185,21 @@ management:
         include: '*'
         base-path: /actuator
 ```
+
+---
+## ZIPKIN
+```shell
+ifconfig
+```
+![ifconfig.png](ifconfig.png)
+- Considerar que este campo cambia y se debe actualizar en el archivo de prometheus
+```yaml
+scrape_configs:
+  - job_name: 'Licencia Service Mitocode'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 1s
+    static_configs:
+      - targets: ['192.168.18.11:9010']
+        labels:
+          application: 'Licencia Service Microservice Scrapping'
+```

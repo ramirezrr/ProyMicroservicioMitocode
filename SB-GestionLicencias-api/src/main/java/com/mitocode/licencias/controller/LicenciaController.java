@@ -73,6 +73,7 @@ public class LicenciaController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Listado de licencias obtenido exitosamente", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Licencia.class)))}), @ApiResponse(responseCode = "400", description = "Error al obtener las licencias", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @GetMapping("/listLicenses")
     public List<Licencia> listLicenses() {
+        log.info("Listando todas las licencias");
         return licenciaService.listarLicencias();
     }
 

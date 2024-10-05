@@ -29,7 +29,7 @@ public class SwaggerConfig {
                                 .name("LICENSE")
                                 .url("LICENSE URL")))
                       .servers(List.of(new Server()
-                            .url("http://localhost:9010/gestor-licencias-api")
+                            .url("http://localhost:9010")
                             .description("Servidor de desarrollo"))
                       );
     }

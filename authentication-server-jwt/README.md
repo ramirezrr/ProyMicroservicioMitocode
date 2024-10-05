@@ -30,13 +30,13 @@ Content-Type: application/json
 }
 
 ### LISTAR TODO
-GET http://localhost:9020/api/licencia-service/gestor-licencias-api/licencias/listLicenses
+GET http://localhost:9020/api/licencia-service/licencias/listLicenses
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWSUVXRVIiLCJpYXQiOjE3Mjc5MTI0NjIsImV4cCI6MTcyNzkxMjUyMiwicm9sZXMiOlsiUk9MRV9WSUVXRVIiXSwiZW1haWwiOiJyNG1pcmVAZ21haWwuY29tIiwibGFzdG5hbWUiOiJSYW1pcmV6In0.kcyD4XIdvn65st2nPMlBzwIFRtTY4eBabKkhms6csRkRKlVfCOH7jIPij816Edv2uHWyWVtF_003NkeH3L71Yg
 
 
 ### NUEVA LICENCIA
-POST http://localhost:9020/api/licencia-service/gestor-licencias-api/licencias/issueLicense
+POST http://localhost:9020/api/licencia-service/licencias/issueLicense
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJVU0VSIiwiaWF0IjoxNzI3OTExOTc3LCJleHAiOjE3Mjc5MTIwMzcsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJlbWFpbCI6InI0bWlyZUBnbWFpbC5jb20iLCJsYXN0bmFtZSI6IlJhbWlyZXoifQ.7zXSXosqf-6d_rPF9zSQVaxjtyfsswcqDSg6zwEyp8w4hxWewWv-QPLVVjlsLKfIOBXze0K94NaYYlfahESpNw
 
