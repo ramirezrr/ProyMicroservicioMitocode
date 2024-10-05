@@ -27,11 +27,9 @@ springdoc:
     enabled: true
     path: /swagger-ui.html
 
-
-## Enable Actuator
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: '*'
-#        base-path: /actuator
+# Kafka Parameters
+kafka:
+  mitocode:
+    server: 127.0.0.1
+    port: 9092
+    topicName: mitocode
