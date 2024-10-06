@@ -12,7 +12,7 @@ spring:
     password: '{cipher}ab6cee2558815e45fad14ce6918927bb1c447ca571558a06dfe0a6aa82783777'
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
