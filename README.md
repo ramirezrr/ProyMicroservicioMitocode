@@ -2,204 +2,34 @@
 
 Este proyecto implementa un **Spring Cloud Gateway** para enrutar solicitudes hacia el servicio de licencias (`licencia-service`). Se configuran cabeceras personalizadas que se agregan a las respuestas del servidor y se aplica un filtro global para agregar o modificar ciertas cabeceras en todas las solicitudes que pasan a través del Gateway.
 
-## Requisitos
 
+## Requisitos
 - Java 21 o superior
 - Spring Boot 3.3.2
 - Maven 3.x o superior
-- Configuración de `Eureka` para el servicio de descubrimiento
+- ORACLE DB 
+- MONGO DB
 
-## Configuración
+## BD
+### ORACLE:
+- Se debe crear un esquema **mitocode** al crear las tablas core en oracle.
+- El proyecto incluye el mantenimiento CRUD para tres tablas principales, utilizando Oracle como base de datos relacional
+### MONGO
+- MongoDB se utiliza para la auditoría del sistema, donde se registran los eventos y cambios realizados.
+- MongoDB Para el manejo de usuarios y autenticación, se utiliza JWT (JSON Web Token), garantizando la seguridad en el acceso a los servicios.
+- MongoDB se usa para implementar el patrón CQRS (Command Query Responsibility Segregation) para separar las responsabilidades de lectura y escritura, mejorando la escalabilidad del sistema.
 
-El Gateway se ha configurado para agregar las siguientes cabeceras personalizadas en las respuestas:
+_Nota: 
+_Al utilizar JPA, no es necesario crear manualmente las tablas en la base de datos. Simplemente al levantar los servicios, Hibernate se encarga automáticamente de generar las tablas correspondientes según las entidades definidas en el proyecto.__
 
-- `Fecha`: Fecha y hora actual del servidor en formato `yyyy-MM-dd HH:mm:ss` (Se agregó por medio de código)
-- `Usuario`: Un valor fijo que representa al usuario (`UserMitocode`) (Se agregó por medio de código)
-- `X-Tracking-ID`: Un identificador de seguimiento con valor fijo (`tracking-value-xyz`) (Se agregó por medio de configuración)
+_Para que se inserte en auditoria se debe levantar el servicio de Kafka ya que el componente de Auditoria realiza los inserts._
+## Se adjunta POSTMA
+[MICROSERVICES.postman_collection.json](MICROSERVICES.postman_collection.json)
 
-Además, se ha implementado un **filtro global** que:
+## El proyecto incluye el mantenimiento CRUD para tres tablas principales:
+- Licencia: Contiene información sobre las licencias emitidas, como el número de licencia, fechas de emisión y vencimiento, y su estado.
+- Titular: Relacionado con la tabla de Licencia, almacena información del titular de la licencia, como su número de documento, nombres, apellidos y dirección.
+- TipoLicencia: Relacionada también con la tabla de Licencia, describe la categoría y restricciones del tipo de licencia.
 
-- Agrega o modifica la cabecera `appCallerName`, estableciendo el valor `CloudGateway` si no está presente en la solicitud.
-
-### Archivo `application.yml`
-
-```yaml
-server:
-  port: 9020
-
-# Spring Cloud Gateway Router
-spring:
-  cloud:
-    gateway:
-      routes:
-        - id: licencia-service-route
-          uri: lb://licencia-service
-          predicates:
-            - Path=/api/licencia-service/**
-          filters:
-            - StripPrefix=2
-            - LicenciaServiceFilter=X-Tracking-ID,tracking-value-xyz
-```
-
-Ejemplo de respuesta: 
-```http request
-GET http://localhost:9020/api/licencia-service/gestor-licencias-api/titulares/getAllTitulares
-
-HTTP/1.1 200 OK
-transfer-encoding: chunked
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-Date: Fri, 27 Sep 2024 01:11:54 GMT
-##-----Agregados
-Fecha: 2024-09-26 20:11:54
-Usuario: UserMitocode
-X-Tracking-ID: tracking-value-xyz
-
-[
-  {
-    "id": 21,
-    "numeroDocumento": "12345679",
-    "nombres": "LUIS",
-    "apellidos": "CARRASCO",
-    "fechaNacimiento": "1985-06-25",
-    "direccion": "Calle Falsa 123"
-  },
-  {
-    "id": 1,
-    "numeroDocumento": "12345678",
-    "nombres": "Juan",
-    "apellidos": "Pérez Lópeggggghhhhh",
-    "fechaNacimiento": "1985-06-25",
-    "direccion": "Calle Falsa 123"
-  }
-]
-```
----
-# CONF BASE DE DATOS
-```yaml
-services:
-
-  mongo-service:
-    image: mongo
-    container_name: mitocode-mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: mitocode
-      MONGO_INITDB_ROOT_PASSWORD: mitocode
-    ports:
-      - 27017:27017
-    networks:
-      - mitocode
-
-  mongo-express:
-    image: mongo-express
-    container_name: mitocode-mongo-express
-    ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: mitocode
-      ME_CONFIG_MONGODB_ADMINPASSWORD: mitocode
-      ME_CONFIG_MONGODB_URL: mongodb://mitocode:mitocode@mongo-service:27017
-    networks:
-      - mitocode
-
-
-networks:
-  mitocode:
-    name: mitocode-network
-
-```
-
----
-# OBSERVABILITY AND MONITORING
-```YML
-services:
-
-  prometheus:
-    image: prom/prometheus
-    container_name: mitocode-prometheus
-    ports:
-      - 9090:9090
-    volumes: 
-      - ./prometheus/config/:/etc/prometheus/
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-    networks:
-      - mitocode2
-
-  grafana:
-    image: grafana/grafana-oss
-    container_name: mitocode-grafana
-    ports:
-      - 3000:3000
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_SERVER_DOMAIN=localhost
-    networks:
-      - mitocode2
-
-  loki:
-    image: grafana/loki
-    container_name: mitocode-loki
-    ports:
-      - 3100:3100
-    networks:
-      - mitocode2
-
-  zipkin:
-    image: ghcr.io/openzipkin/zipkin-slim
-    container_name: mitocode-zipkin
-    environment:
-      - STORAGE_TYPE=mem
-    ports:
-      - 9411:9411
-    networks:
-      - mitocode2
-networks:
-  mitocode2:
-    name: mitocode-network2
-```
-## URLS: 
-```http request
-http://localhost:9010/actuator/prometheus
-http://localhost:9010/actuator
-#prometheus
-http://localhost:9090/targets?search=
-#Grafana
-http://localhost:3000/
-```
-
-![docker-conf.png](docker-conf.png)
-
-## Archivo para agregar Dashboard optimizado
-[Spring Boot Observability.json](Spring%20Boot%20Observability.json)
-
-## Conf. Actuator
-```YML
-# Enable Actuator
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-        base-path: /actuator
-```
-
----
-## ZIPKIN
-```shell
-ifconfig
-```
-![ifconfig.png](ifconfig.png)
-- Considerar que este campo cambia y se debe actualizar en el archivo de prometheus
-```yaml
-scrape_configs:
-  - job_name: 'Licencia Service Mitocode'
-    metrics_path: '/actuator/prometheus'
-    scrape_interval: 1s
-    static_configs:
-      - targets: ['192.168.18.11:9010']
-        labels:
-          application: 'Licencia Service Microservice Scrapping'
-```
+## Configuración de Kafka
+- La conf. se mantiene a la realizada en el curso manteniendo los puertos.

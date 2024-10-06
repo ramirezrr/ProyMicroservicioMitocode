@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "6b0370d7-54d3-498a-8525-8111c4cb19bd",
+		"name": "MICROSERVICES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9013551"
+	},
+	"item": [
+		{
+			"name": "http://localhost:9099/auth/authenticate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"EDITOR\",\n  \"password\": \"EDITOR\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9099/auth/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9099",
+					"path": [
+						"auth",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9099/auth/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n  \"name\": \"rodrigo\",\n  \"lastname\": \"Ramirez\",\n  \"email\": \"r4mire@gmail.com\",\n  \"username\": \"EDITOR\",\n  \"password\": \"EDITOR\",\n  \"roles\": [\n    \"ROLE_EDITOR\"\n  ]\n}\n//VIEWER ROLE_VIEWER\n//EDITOR ROLE_EDITOR\n//ADMIN ROLE_ADMIN",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9099/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9099",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9020/api/licencia-service/tipos-licencia/saveTipoLicencia",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFRElUT1IiLCJpYXQiOjE3MjgxOTE5NzMsInJvbGVzIjpbIlJPTEVfRURJVE9SIl0sImVtYWlsIjoicjRtaXJlQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiUmFtaXJleiJ9.buD5P8G2FEmTabGecQOnmCYHPqUWXoX-Q8Vn_e1qZrKRTmH24g-jVTN8FUBkvlOw7Hy28NZTituxUBYI_6oLMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"categoria\": \"B1\",\n  \"restricciones\": \"Solo para vehículos livianos\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9020/api/licencia-service/tipos-licencia/saveTipoLicencia",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9020",
+					"path": [
+						"api",
+						"licencia-service",
+						"tipos-licencia",
+						"saveTipoLicencia"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9020/api/licencia-service/titulares/saveTitular",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFRElUT1IiLCJpYXQiOjE3MjgxODg5MDQsInJvbGVzIjpbIlJPTEVfRURJVE9SIl0sImVtYWlsIjoicjRtaXJlQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiUmFtaXJleiJ9.VI2Mz9YGrw7SHQ2_thrjY7czZa70-nMtKA2uPU1Msm_UIW0T9dKD36iFaLZFLPpBa0BJEfTGwFO07cHowEk6NA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"numeroDocumento\": \"123456785464645\",\n  \"nombres\": \"Juan\",\n  \"apellidos\": \"Pérez López$%#$SDG\",\n  \"fechaNacimiento\": \"1985-06-25\",\n  \"direccion\": \"Calle Falsa 123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9020/api/licencia-service/titulares/saveTitular",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9020",
+					"path": [
+						"api",
+						"licencia-service",
+						"titulares",
+						"saveTitular"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9020/api/licencia-service/licencias/issueLicense",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFRElUT1IiLCJpYXQiOjE3MjgxOTE5NzMsInJvbGVzIjpbIlJPTEVfRURJVE9SIl0sImVtYWlsIjoicjRtaXJlQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiUmFtaXJleiJ9.buD5P8G2FEmTabGecQOnmCYHPqUWXoX-Q8Vn_e1qZrKRTmH24g-jVTN8FUBkvlOw7Hy28NZTituxUBYI_6oLMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"numLicencia\": \"L00000001\",\n  \"fechaEmision\": \"2024-10-05\",\n  \"fechaVencimiento\": \"2024-10-05\",\n  \"estado\": \"ACTIVO\",\n  \"titular\": {\n\n    \"id\": 1,\n    \"numeroDocumento\": \"12345678\",\n    \"nombres\": \"Juan\",\n    \"apellidos\": \"Pérez López\",\n    \"fechaNacimiento\": \"1985-06-25\",\n    \"direccion\": \"Calle Falsa 123\"\n\n  },\n  \"tipoLicencia\": {\n    \"id\": 1,\n  \"categoria\": \"B1\",\n  \"restricciones\": \"Solo para vehículos livianos\"\n  },\n  \"deleted\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9020/api/licencia-service/licencias/issueLicense",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9020",
+					"path": [
+						"api",
+						"licencia-service",
+						"licencias",
+						"issueLicense"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9020/api/licencia-service/licencias/validateVigenciaStatus/L00000001",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFRElUT1IiLCJpYXQiOjE3MjgxODMyOTcsInJvbGVzIjpbIlJPTEVfRURJVE9SIl0sImVtYWlsIjoicjRtaXJlQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiUmFtaXJleiJ9.kXe0AdRZk9BlkZ7shieZVvjsE7NUx_pSzyxDVyplQ48x9R_0poQzK4AiSTFayC2VBJB3mDUyIuV4QE6n7DDxzw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9020/api/licencia-service/licencias/validateVigenciaStatus/L00000001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9020",
+					"path": [
+						"api",
+						"licencia-service",
+						"licencias",
+						"validateVigenciaStatus",
+						"L00000001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9020/api/licencia-service/licencias/updateLicense/1",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFRElUT1IiLCJpYXQiOjE3MjgxODMyOTcsInJvbGVzIjpbIlJPTEVfRURJVE9SIl0sImVtYWlsIjoicjRtaXJlQGdtYWlsLmNvbSIsImxhc3RuYW1lIjoiUmFtaXJleiJ9.kXe0AdRZk9BlkZ7shieZVvjsE7NUx_pSzyxDVyplQ48x9R_0poQzK4AiSTFayC2VBJB3mDUyIuV4QE6n7DDxzw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n        \"id\": 1,\n        \"numLicencia\": \"L00000001\",\n        \"fechaEmision\": \"2019-10-08\",\n        \"fechaVencimiento\": \"2024-10-08\",\n        \"estado\": \"ACTIVO\",\n        \"titular\": {\n            \"id\": 1,\n            \"numeroDocumento\": \"12345678\",\n            \"nombres\": \"Juan\",\n            \"apellidos\": \"Pérez López\",\n            \"fechaNacimiento\": \"1985-06-25\",\n            \"direccion\": \"Calle Falsa 123\"\n        },\n        \"tipoLicencia\": {\n            \"id\": 1,\n            \"categoria\": \"B1\",\n            \"restricciones\": \"Solo para vehículos livianos\"\n        },\n        \"deleted\": false\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9020/api/licencia-service/licencias/updateLicense/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9020",
+					"path": [
+						"api",
+						"licencia-service",
+						"licencias",
+						"updateLicense",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
