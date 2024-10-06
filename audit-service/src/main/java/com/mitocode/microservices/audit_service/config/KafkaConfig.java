@@ -3,9 +3,10 @@ package com.mitocode.microservices.audit_service.config;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.mitocode.microservices.audit_service.model.AuditInfo;
+import com.mitocode.generic.AuditEvent;
 import com.mitocode.generic.GenericEntity;
 import com.mitocode.microservices.audit_service.model.Licencia;
+import com.mitocode.microservices.audit_service.repository.AuditInfoRepository;
 import com.mitocode.microservices.audit_service.repository.LicenciaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class KafkaConfig {
 
     private final ObjectMapper mapper;
     private final LicenciaRepository LicenciaRepository;
+    private final AuditInfoRepository auditInfoRepository;
 
     @Value("${kafka.mitocode.server:127.0.0.1}")
     private String kafkaServer;
@@ -43,9 +45,6 @@ public class KafkaConfig {
         Map<String, Object> kafkaProps = new HashMap<>();
         kafkaProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer + ":" + kafkaPort);
         kafkaProps.put(ConsumerConfig.GROUP_ID_CONFIG, topicName);
-
-//        kafkaProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-//        kafkaProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
         kafkaProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         kafkaProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
@@ -73,12 +72,11 @@ public class KafkaConfig {
     @KafkaListener(topics = "mitocode")
     public void listenTopic(GenericEntity<?> message) {
 
-//        log.info("=====>" + message.getT());
+        if (message.getClassName().equals(AuditEvent.class.getSimpleName())) {
 
-        if (message.getClassName().equals(AuditInfo.class.getSimpleName())) {
-
-            AuditInfo auditInfo = mapper.convertValue(message.getT(), new TypeReference<>() {});
-            log.info("Entidad Audit Info: " + auditInfo);
+            AuditEvent auditInfo = mapper.convertValue(message.getT(), new TypeReference<>() {});
+            log.info("Entidad AuditEvent Info: " + auditInfo.toString());
+            auditInfoRepository.save(auditInfo);
 
         } else if (message.getClassName().equals(Licencia.class.getSimpleName())) {
             log.info("..::.." + message.getClassName());
@@ -89,7 +87,6 @@ public class KafkaConfig {
 
         } else {
             log.info("..::.." + message.getClassName());
-//            log.info("=====>" + message.getClass());
         }
     }
 

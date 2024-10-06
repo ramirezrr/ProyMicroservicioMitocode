@@ -34,6 +34,8 @@ public class LicenciaServiceImpl implements ILicenciaService {
 
     private final KafkaUtil kafkaUtil;
 
+    private  final AuditEventService auditEventService;
+
     @Override
     public GenericoResponse validarEstadoLicencia(String numeroLicencia) {
 
@@ -90,7 +92,14 @@ public class LicenciaServiceImpl implements ILicenciaService {
         licencia.setNumLicencia(generarCodigoLicencia(licenciaRepository.getNextLicenciaSequence().orElseThrow(() -> new ErrorGenericException(HttpStatus.BAD_REQUEST.toString(), "Error al emitir licencia."))));
         licencia.setTitular(titularService.findByNumeroDocumento(licencia.getTitular().getNumeroDocumento()));
         licencia.setTipoLicencia(tipoLicenciaService.getTipoLicenciaById(licencia.getTipoLicencia().getId()));
-        return licenciaRepository.save(licencia);
+
+        Licencia licencia1 = licenciaRepository.save(licencia);
+
+        auditEventService.logEvent("CREATE",licencia1.toString());
+        GenericEntity<Licencia> genericEntity = new GenericEntity<>(licencia, Licencia.class.getSimpleName());
+        kafkaUtil.sendMessage(genericEntity);
+
+        return licencia1;
     }
 
     public String generarCodigoLicencia(Long id) {
@@ -127,21 +136,19 @@ public class LicenciaServiceImpl implements ILicenciaService {
             licencia.setTipoLicencia(titularActualizado);
         }
 
-        return licenciaRepository.save(licencia);
+        Licencia licencia1 =licenciaRepository.save(licencia);
+        auditEventService.logEvent("CREATE",licencia1.toString());
+        GenericEntity<Licencia> genericEntity = new GenericEntity<>(licencia, Licencia.class.getSimpleName());
+        kafkaUtil.sendMessage(genericEntity);
+        return licencia1;
     }
 
     public List<Licencia> listarLicencias() {
 
         Optional<List<Licencia>> findAllByDeleted = licenciaRepository.findAllByDeleted(false);
 
-        for (Licencia licencia : findAllByDeleted.get()) {
+        auditEventService.logEvent(HttpStatus.OK.toString(),findAllByDeleted.toString());
 
-
-            GenericEntity<Licencia> genericEntity = new GenericEntity<>(licencia, Licencia.class.getSimpleName());
-
-
-            kafkaUtil.sendMessage(genericEntity);
-        }
 
         return findAllByDeleted.orElseThrow(() -> new ErrorGenericException(HttpStatus.BAD_REQUEST.toString(), "Error al obtener licencias."));
     }
