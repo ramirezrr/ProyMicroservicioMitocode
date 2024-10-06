@@ -4,10 +4,12 @@ import com.mitocode.licencias.exception.ErrorGenericException;
 import com.mitocode.licencias.exception.FunctionalGenericResponse;
 import com.mitocode.licencias.exception.GenericoResponse;
 import com.mitocode.licencias.model.BajaResponse;
+import com.mitocode.generic.GenericEntity;
 import com.mitocode.licencias.model.Licencia;
 import com.mitocode.licencias.model.TipoLicencia;
 import com.mitocode.licencias.model.Titular;
 import com.mitocode.licencias.repository.LicenciaRepository;
+import com.mitocode.licencias.util.KafkaUtil;
 import com.mitocode.licencias.util.Patcher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,8 @@ public class LicenciaServiceImpl implements ILicenciaService {
     private final LicenciaRepository licenciaRepository;
     private final ITitularService titularService;
     private final ITipoLicenciaService tipoLicenciaService;
+
+    private final KafkaUtil kafkaUtil;
 
     @Override
     public GenericoResponse validarEstadoLicencia(String numeroLicencia) {
@@ -127,7 +131,19 @@ public class LicenciaServiceImpl implements ILicenciaService {
     }
 
     public List<Licencia> listarLicencias() {
-        return licenciaRepository.findAllByDeleted(false).orElseThrow(() -> new ErrorGenericException(HttpStatus.BAD_REQUEST.toString(), "Error al obtener licencias."));
+
+        Optional<List<Licencia>> findAllByDeleted = licenciaRepository.findAllByDeleted(false);
+
+        for (Licencia licencia : findAllByDeleted.get()) {
+
+
+            GenericEntity<Licencia> genericEntity = new GenericEntity<>(licencia, Licencia.class.getSimpleName());
+
+
+            kafkaUtil.sendMessage(genericEntity);
+        }
+
+        return findAllByDeleted.orElseThrow(() -> new ErrorGenericException(HttpStatus.BAD_REQUEST.toString(), "Error al obtener licencias."));
     }
 
     public Licencia listarLicenciasPorId(Long id) {

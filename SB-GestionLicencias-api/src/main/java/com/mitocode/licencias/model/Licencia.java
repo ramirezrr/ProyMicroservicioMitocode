@@ -17,12 +17,18 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @Entity
 @Table(name = "Licencia", schema = "MITOCODE")
-public class Licencia {
+public class Licencia implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Licencia_seq")
@@ -39,6 +45,8 @@ public class Licencia {
     @Schema(description = "Fecha de emisión de la licencia", example = "2024-09-24", required = true, type = "string", format = "date")
     private LocalDate fechaEmision;
 
+    @JsonDeserialize(using = CustomDateDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Schema(description = "Fecha de vencimiento de la licencia", example = "2024-08-24", type = "string", format = "date")
     private LocalDate fechaVencimiento;
 

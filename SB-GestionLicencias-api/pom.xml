@@ -134,6 +134,15 @@
             <artifactId>zipkin-reporter-brave</artifactId>
         </dependency>
         <!--Fin Zipkin dependecy -->
+
+
+        <!--Inicio Kafka dependency -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <!--Fin Kafka dependency -->
+
     </dependencies>
 
     <!--Inicio Dependencia cliente de Eureka-->

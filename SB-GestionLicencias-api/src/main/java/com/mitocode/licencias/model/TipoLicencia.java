@@ -11,10 +11,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Data
 @Entity
 @Table(name = "TipoLicencia", schema = "MITOCODE")
-public class TipoLicencia {
+public class TipoLicencia implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TipoLicencia_seq")
