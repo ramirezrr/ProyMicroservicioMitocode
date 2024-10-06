@@ -1,7 +1,13 @@
 # Spring Cloud Gateway - Licencia Service Configuration
 
-Este proyecto implementa un **Spring Cloud Gateway** para enrutar solicitudes hacia el servicio de licencias (`licencia-service`). Se configuran cabeceras personalizadas que se agregan a las respuestas del servidor y se aplica un filtro global para agregar o modificar ciertas cabeceras en todas las solicitudes que pasan a través del Gateway.
+El núcleo del proyecto se enfoca en la gestión de licencias de conducir, permitiendo:
 
+Emisión de nuevas licencias de forma eficiente.
+Validación de vigencia de licencias para garantizar su validez legal.
+Actualización parcial de datos de licencias para mantener la información actualizada.
+Eliminación lógica de licencias vencidas para mantener la integridad de los datos.
+Auditoría asíncrona de acciones de clientes y usuarios, mejorando el rendimiento.
+Control de roles y permisos para garantizar seguridad y cumplimiento normativo.
 
 ## Requisitos
 - Java 21 o superior
