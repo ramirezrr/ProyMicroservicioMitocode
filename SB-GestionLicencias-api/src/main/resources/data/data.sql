@@ -1,3 +1,7 @@
+select * from mitocode.licencia;
+select * from mitocode.tipo_licencia;
+select * from mitocode.titular;
+
 -- Crear secuencia para TITULAR
 CREATE SEQUENCE titular_seq
     START WITH 1

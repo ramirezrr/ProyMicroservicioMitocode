@@ -105,6 +105,7 @@ public class LicenciaController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Licencia dada de baja exitosamente", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = BajaResponse.class))}), @ApiResponse(responseCode = "400", description = "Error al dar de baja la licencia", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))}), @ApiResponse(responseCode = "500", description = "Error inesperado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorGenericResponse.class))})})
     @PostMapping("/updateStatusToDeactivateLicense")
     public ResponseEntity<BajaResponse> updateStatusToDeactivateLicense(@RequestParam(required = false) String numeroLicencia, @RequestParam(required = false) Long id) {
+        log.info(numeroLicencia + "  "+ id);
         BajaResponse licencia = licenciaService.actualizarEstadoDarDeBajaLicencia(numeroLicencia, id);
         return ResponseEntity.ok(licencia);
     }

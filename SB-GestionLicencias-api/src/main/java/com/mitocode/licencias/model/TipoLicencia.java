@@ -17,10 +17,11 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "TipoLicencia", schema = "MITOCODE")
-public class TipoLicencia implements Serializable {
+public class TipoLicencia {
+//        implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+//    @Serial
+//    private static final long serialVersionUID = 1L;
 
 
     @Id

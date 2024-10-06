@@ -24,10 +24,11 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "Licencia", schema = "MITOCODE")
-public class Licencia implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class Licencia {
+//        implements Serializable {
+//
+//    @Serial
+//    private static final long serialVersionUID = 1L;
 
 
     @Id

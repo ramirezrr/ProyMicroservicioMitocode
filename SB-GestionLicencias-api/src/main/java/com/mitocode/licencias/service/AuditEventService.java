@@ -11,6 +11,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -22,7 +24,8 @@ public class AuditEventService {
     @Async
     public void logEvent(String eventType, String details) {
         String eventId = UUID.randomUUID().toString();
-        String timestamp = Instant.now().toString();
+        ZonedDateTime fechaActual = ZonedDateTime.now(ZoneId.of("America/Lima"));
+        String timestamp = fechaActual.toString();
         String userId ="mitocode";
 
         AuditEvent auditEvent = new AuditEvent(eventId, eventType, userId, timestamp, details);

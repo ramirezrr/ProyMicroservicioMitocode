@@ -19,9 +19,9 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
         return http.authorizeExchange(auth ->
-                        auth.pathMatchers(HttpMethod.GET, "/api/licencia-service/licencias/**")
-                                .hasAnyRole("VIEWER")
-                        .pathMatchers(HttpMethod.POST, "/api/licencia-service/licencias/**")
+                        auth.pathMatchers(HttpMethod.GET, "/api/licencia-service/**")
+                                .hasAnyRole("ADMIN","VIEWER")
+                        .pathMatchers(HttpMethod.POST, "/api/licencia-service/**")
                                 .hasAnyRole("ADMIN", "EDITOR")
                                 .anyExchange().authenticated())
                 .addFilterAt(authenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
