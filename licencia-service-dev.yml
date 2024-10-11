@@ -1,17 +1,18 @@
 server:
-  port: 9010
+  port: ${CUSTOM.SERVER.PORT:9010}
 #  servlet:
 #    context-path: /gestor-licencias-api
-
 
 spring:
   # configuración de Base de datos ORACLE
   datasource:
-    url: jdbc:oracle:thin:@//localhost:1521/xe
-    username: mitocode
+    url: ${ORACLE.URL.CONNECTION:jdbc:oracle:thin:@//localhost:1521/FREEPDB1}
+    username: system
     password: '{cipher}ab6cee2558815e45fad14ce6918927bb1c447ca571558a06dfe0a6aa82783777'
+    driver-class-name: oracle.jdbc.driver.OracleDriver
   jpa:
     hibernate:
+      dialect: org.hibernate.dialect.Oracle12cDialect
       ddl-auto: create
     properties:
       hibernate:
